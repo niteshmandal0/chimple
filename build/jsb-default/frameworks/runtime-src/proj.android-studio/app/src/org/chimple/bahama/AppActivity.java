@@ -379,7 +379,7 @@ public class AppActivity extends com.sdkbox.plugin.SDKBoxActivity {
         Intent intent = getIntent();
 
         intent.setAction("android.intent.action.VIEW");
-        String url = "https://chimple.cc/microlink/?courseid=en&chapterid=en00&lessonid=en0000";
+        String url = "https://chimple.cc/microlink/?courseid=en&chapterid=en00&lessonid=en0000&app=eidu";
         intent.setData(Uri.parse(url));
 
         Log.d(TAG, "intent:" + intent);

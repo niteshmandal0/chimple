@@ -129,6 +129,7 @@ export default class Config {
 
     //remove later
     flow: Flow;
+    static eidu: boolean;
 
     private constructor() {
     }

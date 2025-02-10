@@ -70,6 +70,9 @@ const LOGIN_METHOD_SIGNATURE = "(Ljava/lang/String;Ljava/lang/String;)V";
 const LOGOUT_METHOD = "logout";
 const LOGOUT_METHOD_SIGNATURE = "()V";
 
+const CLOSEAPP_METHOD = "closeApplication";
+const CLOSEAPP_METHOD_SIGNATURE = "()V";
+
 const FIND_SCHOOL_METHOD = "findSchool";
 const FIND_SCHOOL_METHOD_SIGNATURE = "(Ljava/lang/String;)Ljava/lang/String;";
 
@@ -562,6 +565,23 @@ export default class UtilLogger {
                     LOGGER_CLASS,
                     LOGOUT_METHOD,
                     LOGOUT_METHOD_SIGNATURE
+                );
+            }
+        } catch (e) {
+        }
+    }
+
+    public static closeApp(): void {
+        cc.log(`calling the close application function`);
+        try {
+            if (
+                cc.sys.isNative &&
+                cc.sys.os == cc.sys.OS_ANDROID
+            ) {
+                return jsb.reflection.callStaticMethod(
+                    LOGGER_CLASS,
+                    CLOSEAPP_METHOD,
+                    CLOSEAPP_METHOD_SIGNATURE
                 );
             }
         } catch (e) {

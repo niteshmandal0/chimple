@@ -1,6 +1,7 @@
 package org.chimple.bahama.logger;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -1135,6 +1136,20 @@ public class ChimpleLogger {
                     name,
                     Integer.parseInt(timeSpent)
                     );
+        }
+    }
+
+
+    public static void closeApplication() {
+        AppActivity activity = AppActivity.app;
+        if (activity != null) {
+            Log.d(TAG, "Closing the application gracefully...");
+
+            // Gracefully close all activities
+            activity.finishAffinity();
+
+            // Move app to the background (OS will handle process cleanup)
+            activity.moveTaskToBack(true);
         }
     }
 }

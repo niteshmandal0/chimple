@@ -28,7 +28,12 @@ export default class QuitPopup extends cc.Component {
     onClickYesButton() {
         this.node.getChildByName('quit_bg').getChildByName('exit_game').getComponent(cc.Button).interactable = false;
         Config.isMicroLink = false;
-        Config.i.popScene();
+            if(Config.eidu) {
+                UtilLogger.closeApp();
+            }
+            else{
+                Config.i.popScene()
+            }
         LessonController.getFriend().stopAudio();
     }
 

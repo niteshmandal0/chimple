@@ -3,6 +3,7 @@ import { REWARD_TYPES, Util } from "../../scripts/util";
 import Achievement from "./achievement";
 import Friend from "../../scripts/friend";
 import { MICROLINK_END_BLANK } from "../../scripts/lib/constants";
+import UtilLogger from "../../scripts/util-logger";
 
 const { ccclass, property } = cc._decorator;
 
@@ -102,7 +103,12 @@ export default class Scorecard extends cc.Component {
             Config.i.pushScene('menu/start/scenes/start', 'menu', null, true);
         }
         else{
-            Config.i.popScene()
+            if(Config.eidu) {
+                UtilLogger.closeApp();
+            }
+            else{
+                Config.i.popScene()
+            }
         } 
     }
     
