@@ -53,7 +53,7 @@ export enum UpdateEvent {
 }
 
 export const PROJECT_MANIFEST = 'project.manifest'
-export const DO_HOT_UPDATE = true
+export const DO_HOT_UPDATE = false
 
 
 export let RECEIVED_TEACHER_REQUESTS: boolean = false;
@@ -88,9 +88,10 @@ cc.deep_link = function (url) {
                         })
                     }
                     if (messageType.includes(MICROLINK)) {
-                        Config.isMicroLink = true
+                        Config.isMicroLink = false;
                         const jsonMessages: any[] = Util.removeDuplicateMessages(data, messageType);
                         cc.sys.localStorage.setItem(messageType, JSON.stringify(jsonMessages));
+                        Util.loadDirectLessonWithLink(data, this.node);
                         if (cc.director.getScene().name !== "chimple" && cc.director.getScene().name !== "welcomePage") Chimple.selectModes();
                     }
                     try {

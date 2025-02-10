@@ -4,5 +4,6 @@
   "version": "2.4.8",
   "name": "chimple",
   "id": "472c6716-c4e6-4578-a143-587ba0b00b09",
-  "isNew": false
+  "isNew": false,
+  "description": "For setting up: mkdir -p sdcard/bahama cd sdcard/bahama git clone https://github.com/chimple/hi.git git clone https://github.com/chimple/hi-maths.git git clone https://github.com/chimple/en.git git clone https://github.com/chimple/en-maths.git"
 }

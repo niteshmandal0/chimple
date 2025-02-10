@@ -205,6 +205,7 @@ export default class UtilLogger {
         event[`${DEVICE_ID}`] = this.currentDeviceId() || "";
         event[`${TIMESTAMP}`] = new Date().getTime();
         UtilLogger.logEventToFireBaseWithKey(name, event);
+        console.log("logging chimple event", name, " with content", JSON.stringify(event));
     }
 
     public static logEventToFireBase(eventInfo: any) {

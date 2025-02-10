@@ -361,7 +361,7 @@ export default class LessonController extends cc.Component {
                 courseName: config.course.id,
                 problemNo: config.problem,
                 timeSpent: Math.abs(timeSpent),
-                userId: User.getCurrentUser().id,
+                userId: User.getCurrentUser()?.id ?? "null",
                 deviceId: deviceId
             };
             const headerCSV = Object.keys(logEventForIxo).join(",");
@@ -486,7 +486,31 @@ export default class LessonController extends cc.Component {
         });
 
         try {
-            if (config.microLinkData.webclass === "true" && config.lesson.assignmentId != null) {
+            if (!Config.isMicroLink) {
+                console.log("in the lessonend")
+                const deviceId = UtilLogger.currentDeviceId();
+                const logEventForIxo = {
+                    lessonSessionId: this.lessonSessionId,
+                    chapterName: config.chapter.name,
+                    chapterId: config.chapter.id,
+                    lessonName: config.lesson.name,
+                    lessonId: config.lesson.id,
+                    courseName: config.course.id,
+                    lessonType: config.lesson.type,
+                    score: score,
+                    timeSpent: Math.abs(timeSpent),
+                    skills: config.lesson.skills && config.lesson.skills.length > 0 ? config.lesson.skills.join(",") : "",
+                    attempts: user ? (user.lessonProgressMap.get(config.lesson.id) ? user.lessonProgressMap.get(config.lesson.id).attempts : 1) : 1,
+                    assignmentId: config.lesson.assignmentId,
+                    mlStudentId: config.lesson.mlStudentId,
+                    mlClassId: config.lesson.mlClassId,
+                    mlPartnerId: config.lesson.mlPartnerId
+                };
+                const headerCSV = Object.keys(logEventForIxo).join(",");
+                const eventCSV = Object.values(logEventForIxo).join(",");
+                UtilLogger.logToDaily(deviceId, headerCSV, eventCSV);
+            }
+            else if (config.microLinkData.webclass === "true" && config.lesson.assignmentId != null) {
                 cc.log('config.microLinkData.isprod ', config.microLinkData.test);
                 cc.log('config.microLinkData.isprod ', config.microLinkData);
                 const requestParams: RequestParams = {
