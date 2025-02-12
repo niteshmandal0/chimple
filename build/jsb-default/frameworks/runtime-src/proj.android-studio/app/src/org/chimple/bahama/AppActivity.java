@@ -53,6 +53,7 @@ import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
 // import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.eidu.integration.RunLearningUnitRequest;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -145,6 +146,13 @@ public class AppActivity extends com.sdkbox.plugin.SDKBoxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        RunLearningUnitRequest request = RunLearningUnitRequest.fromIntent(getIntent());
+        Log.d(TAG, "test001n");
+        if(request != null) {
+            handleRequest(request);
+        }
+
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
         logger = ChimpleLogger.getInstance(this, firebaseAnalytics);
@@ -376,12 +384,8 @@ public class AppActivity extends com.sdkbox.plugin.SDKBoxActivity {
 
     public void processDeepLink() {
         //Deep Links
+
         Intent intent = getIntent();
-
-        intent.setAction("android.intent.action.VIEW");
-        String url = "https://chimple.cc/microlink/?courseid=en&chapterid=en00&lessonid=en0000&app=eidu";
-        intent.setData(Uri.parse(url));
-
         Log.d(TAG, "intent:" + intent);
         if (intent != null) {
             String chapter = null;
@@ -1037,4 +1041,46 @@ public class AppActivity extends com.sdkbox.plugin.SDKBoxActivity {
             app.helper.getSharedPreferences().edit().remove(PASSWORD).apply();
             AppActivity.app.helper.setFirebaseUserLoggedIn(false);
     }
+
+    private boolean eidu = false;
+
+    public void handleRequest(RunLearningUnitRequest request) {
+        if (request != null) {
+            Log.d(TAG, "call from eidu");
+
+            Intent curr_intent = new Intent();
+            curr_intent.setClassName("org.chimple.bahama", "org.chimple.bahama.AppActivity");
+            curr_intent.setAction("android.intent.action.VIEW");
+
+            // Extract learningUnitId from intent extras
+            String learningUnitId = getIntent().getStringExtra("learningUnitId");
+
+            if (learningUnitId != null && learningUnitId.contains("_")) {
+                // Split the learningUnitId into course, chapter, and lesson
+                String[] parts = learningUnitId.split("_");
+                if (parts.length == 3) {
+                    String courseId = parts[0];   // "en" -- example
+                    String chapterId = parts[1];  // "en00" -- example
+                    String lessonId = parts[2];   // "en0000" -- example
+
+                    // Construct the URL dynamically
+                    String url = "https://chimple.cc/microlink/?courseid=" + courseId +
+                            "&chapterid=" + chapterId +
+                            "&lessonid=" + lessonId +
+                            "&app=eidu";
+
+                    curr_intent.setData(Uri.parse(url));
+                    Log.d(TAG, "Generated URL: " + url);
+                } else {
+                    Log.e(TAG, "Invalid learningUnitId format: " + learningUnitId);
+                }
+            } else {
+                Log.e(TAG, "learningUnitId is missing or not formatted correctly.");
+            }
+
+            startActivity(curr_intent);
+        }
+    }
+
+
 }

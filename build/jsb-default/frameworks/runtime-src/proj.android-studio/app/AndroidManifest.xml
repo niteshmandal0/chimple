@@ -29,6 +29,7 @@
 
         <activity
             android:name="org.chimple.bahama.AppActivity"
+            android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:label="@string/app_name"
             android:launchMode="singleTask"
@@ -83,7 +84,11 @@
                     android:scheme="https"
                     android:host="chimple.cc"
                     android:pathPrefix="/microlink" />
-            </intent-filter>            
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.eidu.integration.LAUNCH_LEARNING_UNIT" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity
             android:name="org.chimple.bahama.YoutubeActivity"

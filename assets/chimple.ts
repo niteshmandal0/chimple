@@ -87,7 +87,7 @@ cc.deep_link = function (url) {
 
                     if (messageType.includes(MICROLINK)) {
                         if("app" in data && data["app"] === "eidu") {
-                            console.log("call from eidu");
+                            console.log("call from eidu for deeplink");
                             Config.isMicroLink = false;
                             Config.eidu = true;
                         }
