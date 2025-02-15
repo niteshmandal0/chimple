@@ -1045,7 +1045,8 @@ public class AppActivity extends com.sdkbox.plugin.SDKBoxActivity {
     private boolean eidu = false;
 
     public void handleRequest(RunLearningUnitRequest request) {
-        if (request != null) {
+        if (request != null && !eidu) {
+            eidu = true;
             Log.d(TAG, "call from eidu");
 
             Intent curr_intent = new Intent();
