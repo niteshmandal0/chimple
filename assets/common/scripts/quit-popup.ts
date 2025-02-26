@@ -66,6 +66,7 @@ export default class QuitPopup extends cc.Component {
         // problemSessionId: this.problemSessionId,
         left_game_no: config.problem,
         left_game_name: config.game,
+        lessonStartTime: LessonController.instance?.getLessonStartTime() || 0
       };
       const customEvent = new CustomEvent(GAME_EXIT, {
         detail: details,

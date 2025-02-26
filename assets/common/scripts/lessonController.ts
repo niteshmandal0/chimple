@@ -69,7 +69,7 @@ export default class LessonController extends cc.Component {
   quizScore: number = 0;
   totalQuizzes: number = 0;
   isQuizAnsweredCorrectly: boolean = false;
-  lessonStartTime: number = 0;
+  private lessonStartTime: number = 0;
   lessonSessionId: string = null;
   problemSessionId: string = null;
   problemStartTime: number = new Date().getTime();
@@ -86,6 +86,7 @@ export default class LessonController extends cc.Component {
   static bundles: cc.AssetManager.Bundle[] = [];
   static friend: Friend = null;
   static gamePrefab: cc.Prefab;
+  static instance: LessonController;
   isCuba = Profile.getItem(IS_CUBA);
 
   onLoad() {
@@ -280,10 +281,15 @@ export default class LessonController extends cc.Component {
 
   private lessonStart() {
     this.lessonStartTime = new Date().getTime();
+    LessonController.instance = this;
     this.lessonSessionId = User.createUUID();
     this.startGame(LessonController.gamePrefab);
     this.loading.active = false;
   }
+
+  public getLessonStartTime(): number {
+    return this.lessonStartTime;
+}
 
   private problemStart(replaceScene: boolean) {
     const config = Config.getInstance();
