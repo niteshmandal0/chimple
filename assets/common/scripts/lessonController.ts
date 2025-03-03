@@ -10,6 +10,7 @@ import {
   CURRENT_STUDENT_ID,
   CURRENT_SUBJECT_ID,
   EXAM,
+  GAME_START,
   IS_CUBA,
   Mode,
 } from "./lib/constants";
@@ -285,6 +286,16 @@ export default class LessonController extends cc.Component {
     this.lessonSessionId = User.createUUID();
     this.startGame(LessonController.gamePrefab);
     this.loading.active = false;
+
+    let details = {
+      lessonStartTime: this.lessonStartTime
+    };
+
+    const customEvent = new CustomEvent(GAME_START, {
+      detail: details,
+    });
+    window.parent.document.body.dispatchEvent(customEvent);
+    console.log("event dispatched", customEvent);
   }
 
   public getLessonStartTime(): number {
