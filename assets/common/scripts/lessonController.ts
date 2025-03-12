@@ -10,6 +10,7 @@ import {
     CURRENT_STUDENT_ID,
     CURRENT_SUBJECT_ID,
     EXAM,
+    GAME_START,
     IS_CUBA,
     Mode
 } from "./lib/constants";
@@ -237,6 +238,16 @@ export default class LessonController extends cc.Component {
         this.lessonSessionId = User.createUUID();
         this.startGame(LessonController.gamePrefab);
         this.loading.active = false;
+
+        let details = {
+            lessonStartTime: this.lessonStartTime
+          };
+      
+          const customEvent = new CustomEvent(GAME_START, {
+            detail: details,
+          });
+          window.parent.document.body.dispatchEvent(customEvent);
+          console.log("event dispatched", customEvent);
     }
 
     private problemStart(replaceScene: boolean) {
@@ -559,7 +570,7 @@ export default class LessonController extends cc.Component {
         LessonController.friend.node.removeFromParent();
         // scorecardComp.friendPos.addChild(this.friend.node)
         // LessonController.friend.playAnimation('joy', 1)
-        this.node.addChild(scorecard);
+        // this.node.addChild(scorecard);
 
         const gameConfig = GAME_CONFIGS[config.game];
         if (!!gameConfig && !!gameConfig.fontName) {

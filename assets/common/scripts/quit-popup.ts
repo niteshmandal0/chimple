@@ -22,10 +22,10 @@ export default class QuitPopup extends cc.Component {
     isCuba = Profile.getItem(IS_CUBA);
 
     onLoad() {
-        this.inputEventBlocker.zIndex = 2
-        this.node.zIndex = 3
-        this.exitLabel.string = Util.i18NText('Exit');
-        this.videoLabel.string = Util.i18NText('Watch Help Video');
+        // this.inputEventBlocker.zIndex = 2
+        // this.node.zIndex = 3
+        // this.exitLabel.string = Util.i18NText('Exit');
+        // this.videoLabel.string = Util.i18NText('Watch Help Video');
     }
 
     onClickYesButton() {
